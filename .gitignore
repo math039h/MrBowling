@@ -5,6 +5,7 @@
 /modules.xml
 /contentModel.xml
 /.idea.MrBowling.iml
+*.idea
 /projectSettingsUpdater.xml
 # Editor-based HTTP Client requests
 /httpRequests/
