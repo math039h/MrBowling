@@ -6,7 +6,7 @@ public class ShowScoreBoard
     {
         if (scoreBoard[runde, 0] == 10)
         {
-            scoreBoardString[runde, 0] = "x";
+            scoreBoardString[runde, 0] = "X";
         }
         else if (scoreBoard[runde, 0] + scoreBoard[runde, 1] == 10)
         {

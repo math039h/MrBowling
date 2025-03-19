@@ -18,16 +18,26 @@ int[] sum =
 
 for (int i = 0; i < 10; i++)
 {
+    var bowling = new Bowling();
+
     for (int j = 0; j < 2; j++)
     {
-        Console.WriteLine(input + "´s tur til at kaste");
-        var inputKast = Int32.Parse(Console.ReadLine());
-        Console.WriteLine(input + " har scoret " + inputKast + " i kast nr " + (j + 1));
+        if (j == 1 && scoreBoard[i, j - 1] == 10)
+        {
+        }
+        else
+        {
+            Console.WriteLine(input + "´s tur til at kaste");
+            var inputKast = Int32.Parse(Console.ReadLine());
+            Console.WriteLine(input + " har scoret " + inputKast + " i kast nr " + (j + 1));
 
-        scoreBoard[i, j] = inputKast;
+            scoreBoard[i, j] = inputKast;
+
+            bowling.UdregningAfStrike(scoreBoard, i, j, sum);
+        }
     }
 
-    var bowling = new Bowling();
+
     bowling.UdregningAfKast(scoreBoard, sum, i);
     bowling.UdregningAfSpare(scoreBoard, sum, i);
 
