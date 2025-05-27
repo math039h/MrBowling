@@ -4,28 +4,59 @@ public class ShowScoreBoard
 {
     public string PrintScoreBoard(int[,] scoreBoard, string[,] scoreBoardString, int runde)
     {
-        if (scoreBoard[runde, 0] == 10)
+        var førsteKast = 0;
+        var andetKast = 1;
+        var tredjeKast = 2;
+        var strikePoint = 10;
+        var sidsteRunde = 9;
+        
+        if (runde != sidsteRunde)
         {
-            scoreBoardString[runde, 0] = "X";
+            
+            if (scoreBoard[runde, førsteKast] == strikePoint)
+            {
+                scoreBoardString[runde, førsteKast] = "X";
+            }
+            else if (scoreBoard[runde, førsteKast] + scoreBoard[runde, andetKast] == strikePoint)
+            {
+                scoreBoardString[runde, andetKast] = "/";
+                scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
+            }
+            else if (scoreBoard[runde, førsteKast] + scoreBoard[runde, andetKast] != strikePoint)
+            {
+                scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
+                scoreBoardString[runde, andetKast] = scoreBoard[runde, andetKast].ToString();
+            }
         }
-        else if (scoreBoard[runde, 0] + scoreBoard[runde, 1] == 10)
+        else
         {
-            scoreBoardString[runde, 1] = "/";
-            scoreBoardString[runde, 0] = scoreBoard[runde, 0].ToString();
-        }
-        else if (scoreBoard[runde, 0] + scoreBoard[runde, 1] != 10)
-        {
-            scoreBoardString[runde, 0] = scoreBoard[runde, 0].ToString();
-            scoreBoardString[runde, 1] = scoreBoard[runde, 1].ToString();
-        }
+            if (scoreBoard[sidsteRunde, førsteKast] == strikePoint)
+            {
+                scoreBoardString[sidsteRunde, førsteKast] = "X";
+            }
 
+            if (scoreBoard[sidsteRunde, andetKast] == strikePoint)
+            {
+                scoreBoardString[sidsteRunde, andetKast] = "X";
+            }
 
+            if (scoreBoard[sidsteRunde, tredjeKast] == strikePoint)
+            {
+                scoreBoardString[sidsteRunde, tredjeKast] = "X";
+            }
+            
+            // scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
+            // scoreBoardString[runde, andetKast] = scoreBoard[runde, andetKast].ToString();
+            // scoreBoardString[runde, tredjeKast] = scoreBoard[runde, tredjeKast].ToString();
+        }
+        
         return
             $"{scoreBoardString[0, 0]} {scoreBoardString[0, 1]}   {scoreBoardString[1, 0]} {scoreBoardString[1, 1]}   " +
             $"{scoreBoardString[2, 0]} {scoreBoardString[2, 1]}   {scoreBoardString[3, 0]} {scoreBoardString[3, 1]}   " +
             $"{scoreBoardString[4, 0]} {scoreBoardString[4, 1]}   {scoreBoardString[5, 0]} {scoreBoardString[5, 1]}   " +
             $"{scoreBoardString[6, 0]} {scoreBoardString[6, 1]}   {scoreBoardString[7, 0]} {scoreBoardString[7, 1]}   " +
-            $"{scoreBoardString[8, 0]}  {scoreBoardString[8, 1]}   {scoreBoardString[9, 0]} {scoreBoardString[9, 1]}";
+            $"{scoreBoardString[8, 0]} {scoreBoardString[8, 1]}   {scoreBoardString[9, 0]} {scoreBoardString[9, 1]} " +
+            $"{scoreBoardString[9, 2]}";
     }
 
     public string PrintSumAfRunder(int[] sum)

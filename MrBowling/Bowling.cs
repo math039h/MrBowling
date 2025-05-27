@@ -2,15 +2,15 @@
 
 public class Bowling
 {
-    public void UdregningAfKast(int[,] scoreBoard, int[] sum, int runde)
+    public void UdregningAfKast(int[,] scoreBoard, int[] sumAfRunde, int runde)
     {
-        sum[runde] += scoreBoard[runde, 0] + scoreBoard[runde, 1];
+        sumAfRunde[runde] += scoreBoard[runde, 0] + scoreBoard[runde, 1];
         if (runde != 0)
         {
-            sum[runde] += sum[runde - 1];
+            sumAfRunde[runde] += sumAfRunde[runde - 1];
         }
     }
-    
+
     public void UdregningAfSpare(int[,] scoreBoard, int[] sum, int runde)
     {
         var førsteRunde = 0;
@@ -20,8 +20,10 @@ public class Bowling
         var forrigeRunde = 1;
         var sparePointe = 10;
         var strikePointe = 10;
-        
-        if (runde != førsteRunde && scoreBoard[runde - forrigeRunde, førsteKast] + scoreBoard[runde - forrigeRunde, andetKast] == sparePointe && scoreBoard[runde - forrigeRunde, førsteKast] != strikePointe)
+
+        if (runde != førsteRunde &&
+            scoreBoard[runde - forrigeRunde, førsteKast] + scoreBoard[runde - forrigeRunde, andetKast] == sparePointe &&
+            scoreBoard[runde - forrigeRunde, førsteKast] != strikePointe)
         {
             sum[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
         }
@@ -37,24 +39,56 @@ public class Bowling
         var førForrigeRunde = 2;
         var sparePointe = 10;
         var strikePointe = 10;
-        
+
         if (runde != førsteRunde && kast == førsteKast && scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe)
         {
             sum[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
         }
-        else if (runde != førsteRunde && kast == andetKast && scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe)
+        else if (runde != førsteRunde && kast == andetKast &&
+                 scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe)
         {
             sum[runde - forrigeRunde] += scoreBoard[runde, andetKast];
         }
-        else if (runde != førsteRunde && kast == førsteKast && scoreBoard[runde - forrigeRunde, førsteKast] + scoreBoard[runde - forrigeRunde, andetKast] == sparePointe && scoreBoard[runde, førsteKast] == strikePointe)
+        else if (runde != førsteRunde && kast == førsteKast &&
+                 scoreBoard[runde - forrigeRunde, førsteKast] + scoreBoard[runde - forrigeRunde, andetKast] ==
+                 sparePointe && scoreBoard[runde, førsteKast] == strikePointe)
         {
             sum[runde + 0] += 10;
         }
 
-        if (runde > andenRunde && kast == førsteKast && scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe && scoreBoard[runde - førForrigeRunde, førsteKast] == strikePointe)
+        if (runde > andenRunde && kast == førsteKast && scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe &&
+            scoreBoard[runde - førForrigeRunde, førsteKast] == strikePointe)
         {
             sum[runde - førForrigeRunde] += scoreBoard[runde, førsteKast];
             sum[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
         }
+    }
+
+    public void UdregningAfSidsteRundeKast(int[,] scoreBoard, int[] sumAfRunde)
+    {
+        sumAfRunde[9] += scoreBoard[9, 0] + scoreBoard[9, 1] + scoreBoard[9, 2];
+        sumAfRunde[9] += sumAfRunde[9 - 1];
+
+        
+        
+        //UdregningAfKast(scoreBoard, sumAfRunde, 9);
+        // var sidsteRunde = 9;
+        // if (scoreBoard[sidsteRunde, 0] != 10) 
+        // {
+        //     sumAfRunde[sidsteRunde] += scoreBoard[sidsteRunde, 0];
+        // }
+        //
+        // if (scoreBoard[sidsteRunde, 0] + scoreBoard[sidsteRunde, 1] != 10)
+        // {
+        //     sumAfRunde[sidsteRunde] += scoreBoard[sidsteRunde, 1];
+        // }
+    }
+
+    public void UdregningAfSidsteRundeSpare(int[,] scoreBoard, int[] sumAfRunde)
+    {
+    }
+
+    public void UdregningAfSidsteRundeStrike(int[,] scoreBoard, int i, int[] sumAfRunde)
+    {
     }
 }
