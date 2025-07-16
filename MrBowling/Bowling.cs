@@ -68,27 +68,28 @@ public class Bowling
     {
         sumAfRunde[9] += scoreBoard[9, 0] + scoreBoard[9, 1] + scoreBoard[9, 2];
         sumAfRunde[9] += sumAfRunde[9 - 1];
-
-        
-        
-        //UdregningAfKast(scoreBoard, sumAfRunde, 9);
-        // var sidsteRunde = 9;
-        // if (scoreBoard[sidsteRunde, 0] != 10) 
-        // {
-        //     sumAfRunde[sidsteRunde] += scoreBoard[sidsteRunde, 0];
-        // }
-        //
-        // if (scoreBoard[sidsteRunde, 0] + scoreBoard[sidsteRunde, 1] != 10)
-        // {
-        //     sumAfRunde[sidsteRunde] += scoreBoard[sidsteRunde, 1];
-        // }
     }
 
     public void UdregningAfSidsteRundeSpare(int[,] scoreBoard, int[] sumAfRunde)
     {
     }
 
-    public void UdregningAfSidsteRundeStrike(int[,] scoreBoard, int i, int[] sumAfRunde)
+    public void UdregningAfSidsteRundeStrike(int[,] scoreBoard, int kast, int[] sumAfRunde)
     {
+        if (scoreBoard[9, kast] == 10 && kast != 0)
+        {
+            if (scoreBoard[9, kast - 1] == 10)
+            {
+              sumAfRunde[9] += 10;
+            }
+        }
+
+        if (scoreBoard[9, kast] == 10 && kast != 0 && kast != 1)
+        {
+            if (scoreBoard[9, kast - 1] == 10 && scoreBoard[9, kast - 2] == 10)
+            {
+               sumAfRunde[9] += 10; 
+            }
+        }
     }
 }

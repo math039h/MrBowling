@@ -9,10 +9,9 @@ public class ShowScoreBoard
         var tredjeKast = 2;
         var strikePoint = 10;
         var sidsteRunde = 9;
-        
+
         if (runde != sidsteRunde)
         {
-            
             if (scoreBoard[runde, førsteKast] == strikePoint)
             {
                 scoreBoardString[runde, førsteKast] = "X";
@@ -30,6 +29,10 @@ public class ShowScoreBoard
         }
         else
         {
+            scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
+            scoreBoardString[runde, andetKast] = scoreBoard[runde, andetKast].ToString();
+            scoreBoardString[runde, tredjeKast] = scoreBoard[runde, tredjeKast].ToString();
+
             if (scoreBoard[sidsteRunde, førsteKast] == strikePoint)
             {
                 scoreBoardString[sidsteRunde, førsteKast] = "X";
@@ -44,12 +47,12 @@ public class ShowScoreBoard
             {
                 scoreBoardString[sidsteRunde, tredjeKast] = "X";
             }
-            
+
             // scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
             // scoreBoardString[runde, andetKast] = scoreBoard[runde, andetKast].ToString();
             // scoreBoardString[runde, tredjeKast] = scoreBoard[runde, tredjeKast].ToString();
         }
-        
+
         return
             $"{scoreBoardString[0, 0]} {scoreBoardString[0, 1]}   {scoreBoardString[1, 0]} {scoreBoardString[1, 1]}   " +
             $"{scoreBoardString[2, 0]} {scoreBoardString[2, 1]}   {scoreBoardString[3, 0]} {scoreBoardString[3, 1]}   " +

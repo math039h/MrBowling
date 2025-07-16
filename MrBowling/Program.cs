@@ -24,7 +24,7 @@ for (int i = 0; i < 10; i++)
 
     for (int j = 0; j < 3; j++)
     {
-        if (j == 2 && i != 9 || j == 1 && scoreBoard[i, j - 1] == 10 )
+        if (j == 2 && i != 9 || j == 1 && scoreBoard[i, j - 1] == 10 && i != 9 )
         {
         }
         else if (scoreBoardString[9, 0] != "X" || scoreBoardString[9, 1] != "/")
@@ -56,11 +56,13 @@ for (int i = 0; i < 10; i++)
     {
         
     }
-    
+
+    if (i == sidsteRunde && scoreBoard[sidsteRunde, 0] == 10 || scoreBoard[sidsteRunde, 1] == 10 || scoreBoard[sidsteRunde, 2] == 10)
     {
         bowling.UdregningAfSidsteRundeKast(scoreBoard, sumAfRunde);
-        bowling.UdregningAfSidsteRundeSpare(scoreBoard, sumAfRunde);
+                //bowling.UdregningAfSidsteRundeSpare(scoreBoard, sumAfRunde);
     }
+    
 
     var showScoreBoard = new ShowScoreBoard();
 
