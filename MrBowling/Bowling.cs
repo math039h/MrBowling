@@ -1,122 +1,126 @@
 ﻿namespace MrBowling;
 
-public class Bowling
+public static class Bowling
 {
-    public void UdregningAfKast(int[,] scoreBoard, int[] sumAfRunde, int runde)
+    private const int FørsteKast = 0;
+    private const int AndetKast = 1;
+    private const int TredjeKast = 2;
+    private const int FørsteRunde = 0;
+    private const int AndenRunde = 1;
+    private const int SidsteRunde = 9;
+    private const int MaxPoints = 10;
+    
+    public static void UdregningAfKast(int[,] scoreBoard, int[] sumAfRunde, int runde)
     {
-        sumAfRunde[runde] += scoreBoard[runde, 0] + scoreBoard[runde, 1];
-        if (runde != 0)
-        {
-            sumAfRunde[runde] += sumAfRunde[runde - 1];
-        }
-    }
-
-    public void UdregningAfSpare(int[,] scoreBoard, int[] sumAfRunde, int runde)
-    {
-        var førsteRunde = 0;
-        var andenRunde = 1;
-        var førsteKast = 0;
-        var andetKast = 1;
-        var forrigeRunde = 1;
-        var sparePointe = 10;
-        var strikePointe = 10;
-
-        if (runde != førsteRunde &&
-            scoreBoard[runde - forrigeRunde, førsteKast] + scoreBoard[runde - forrigeRunde, andetKast] == sparePointe &&
-            scoreBoard[runde - forrigeRunde, førsteKast] != strikePointe)
-        {
-            sumAfRunde[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
-            sumAfRunde[runde] += scoreBoard[runde, førsteKast];
-        }
-    }
-
-    public void UdregningAfStrike(int[,] scoreBoard, int runde, int kast, int[] sum)
-    {
-        var førsteRunde = 0;
-        var andenRunde = 1;
-        var førsteKast = 0;
-        var andetKast = 1;
-        var forrigeRunde = 1;
-        var førForrigeRunde = 2;
-        var sparePointe = 10;
-        var strikePointe = 10;
-
-        if (runde != førsteRunde && kast == førsteKast && scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe)
-        {
-            sum[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
-        }
-        else if (runde != førsteRunde && kast == andetKast &&
-                 scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe)
-        {
-            sum[runde - forrigeRunde] += scoreBoard[runde, andetKast];
-        }
-        else if (runde != førsteRunde && kast == førsteKast &&
-                 scoreBoard[runde - forrigeRunde, førsteKast] + scoreBoard[runde - forrigeRunde, andetKast] ==
-                 sparePointe && scoreBoard[runde, førsteKast] == strikePointe)
-        {
-            sum[runde + 0] += 10;
-        }
-
-        if (runde > andenRunde && kast == førsteKast && scoreBoard[runde - forrigeRunde, førsteKast] == strikePointe &&
-            scoreBoard[runde - førForrigeRunde, førsteKast] == strikePointe)
-        {
-            sum[runde - førForrigeRunde] += scoreBoard[runde, førsteKast];
-            sum[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
-        }
-    }
-
-    public void UdregningAfSidsteRundeKast(int[,] scoreBoard, int[] sumAfRunde)
-    {
-        sumAfRunde[9] += scoreBoard[9, 0] + scoreBoard[9, 1] + scoreBoard[9, 2];
-        sumAfRunde[9] += sumAfRunde[9 - 1];
-    }
-
-    public void UdregningAfSidsteRundeSpare(int[,] scoreBoard, int kast, int[] sumAfRunde)
-    {
-        if (scoreBoard[9, 0] + scoreBoard[9, 1] == 10 && scoreBoard[9, 1] != 10 && kast == 2) 
-        {
-            sumAfRunde[9] += scoreBoard[9, 2];
-        }
-
-        if (scoreBoard[8, 0] + scoreBoard[8, 1] == 10 && kast == 0)
-        {
-            sumAfRunde[8] += scoreBoard[9, 0];
-        }
-    }
-
-    public void UdregningAfSidsteRundeStrike(int[,] scoreBoard, int kast, int[] sumAfRunde)
-    {
-        if (scoreBoard[9, kast] == 10 && kast != 0)
-        {
-            if (scoreBoard[9, kast - 1] == 10)
-            {
-                sumAfRunde[9] += 10;
-            }
-        }
-
-        if (scoreBoard[9, kast] == 10 && kast != 0 && kast != 1)
-        {
-            if (scoreBoard[9, kast - 1] == 10 && scoreBoard[9, kast - 2] == 10)
-            {
-                sumAfRunde[9] += 10;
-            }
-        }
-
-        if (scoreBoard[9, 0] == 10 && scoreBoard[8, 0] == 10 && kast == 0)
-        {
-            sumAfRunde[8] += 10;
-        }
-
-        if (scoreBoard[9, 0] == 10 && scoreBoard[8, 0] == 10 && scoreBoard[7, 0] == 10 && kast == 0)
-        {
-            sumAfRunde[7] += 10;
-            //sumAfRunde[8] += 10;
-        }
-
-        if (scoreBoard[9, 0] == 10 && scoreBoard[9, 1] == 10 && scoreBoard[8, 0] == 10 && kast == 1)
-        {
-            sumAfRunde[8] += 10;
-        }
+        var forrigeRunde = runde - 1;
+        sumAfRunde[runde] += scoreBoard[runde, FørsteKast] + scoreBoard[runde, AndetKast];
         
+        if (runde != FørsteRunde)
+        {
+            sumAfRunde[runde] += sumAfRunde[forrigeRunde];
+        }
+    }
+    
+    public static void UdregningAfSpare(int[,] scoreBoard, int[] sumAfRunde, int runde)
+    {
+        var forrigeRunde = runde - 1;
+
+        if (runde == FørsteRunde ||
+            scoreBoard[runde - forrigeRunde, FørsteKast] + scoreBoard[runde - forrigeRunde, AndetKast] != MaxPoints ||
+            scoreBoard[runde - forrigeRunde, FørsteKast] == MaxPoints) 
+            return;
+        
+        sumAfRunde[runde - forrigeRunde] += scoreBoard[runde, FørsteKast];
+        sumAfRunde[runde] += scoreBoard[runde, FørsteKast];
+    }
+
+    public static void UdregningAfStrike(int[,] scoreBoard, int runde, int kast, int[] sum)
+    {
+        var forrigeRunde = runde - 1;
+        var førForrigeRunde = runde - 2;
+
+        if (runde != FørsteRunde && kast == FørsteKast && scoreBoard[runde - forrigeRunde, FørsteKast] == MaxPoints)
+        {
+            sum[runde - forrigeRunde] += scoreBoard[runde, FørsteKast];
+        }
+        else if (runde != FørsteRunde && kast == AndetKast &&
+                 scoreBoard[runde - forrigeRunde, FørsteKast] == MaxPoints)
+        {
+            sum[runde - forrigeRunde] += scoreBoard[runde, AndetKast];
+        }
+        else if (runde != FørsteRunde && kast == FørsteKast &&
+                 scoreBoard[runde - forrigeRunde, FørsteKast] + scoreBoard[runde - forrigeRunde, AndetKast] ==
+                 MaxPoints && scoreBoard[runde, FørsteKast] == MaxPoints)
+        {
+            sum[runde] += MaxPoints;
+        }
+
+        if (runde <= AndenRunde || kast != FørsteKast || scoreBoard[runde - forrigeRunde, FørsteKast] != MaxPoints ||
+            scoreBoard[førForrigeRunde, FørsteKast] != MaxPoints) 
+            return;
+        
+        sum[førForrigeRunde] += scoreBoard[runde, FørsteKast];
+        sum[runde - forrigeRunde] += scoreBoard[runde, FørsteKast];
+    }
+
+    public static void UdregningAfSidsteRundeKast(int[,] scoreBoard, int[] sumAfRunde)
+    {
+        const int forrigeRunde = SidsteRunde - 1;
+        sumAfRunde[SidsteRunde] += scoreBoard[SidsteRunde, FørsteKast] + scoreBoard[SidsteRunde, AndetKast] + scoreBoard[SidsteRunde, TredjeKast];
+        sumAfRunde[SidsteRunde] += sumAfRunde[forrigeRunde];
+    }
+
+    public static void UdregningAfSidsteRundeSpare(int[,] scoreBoard, int kast, int[] sumAfRunde)
+    {
+        const int forrigeRunde = SidsteRunde - 1;
+        
+        if (scoreBoard[SidsteRunde, FørsteKast] + scoreBoard[SidsteRunde, AndetKast] == MaxPoints && scoreBoard[SidsteRunde, AndetKast] != MaxPoints && kast == TredjeKast)
+        {
+            sumAfRunde[SidsteRunde] += scoreBoard[SidsteRunde, TredjeKast];
+        }
+
+        if (scoreBoard[forrigeRunde, FørsteKast] + scoreBoard[forrigeRunde, AndetKast] == MaxPoints && kast == FørsteKast)
+        {
+            sumAfRunde[forrigeRunde] += scoreBoard[SidsteRunde, FørsteKast];
+        }
+    }
+
+    public static void UdregningAfSidsteRundeStrike(int[,] scoreBoard, int kast, int[] sumAfRunde)
+    {
+        const int forrigeRunde = SidsteRunde - 1;
+        const int førForrigeRunde = SidsteRunde - 2;
+        var forrigeKast = kast - 1;
+        var førForrigeKast = kast - 2;
+        
+        if (scoreBoard[SidsteRunde, kast] == MaxPoints && kast != FørsteKast)
+        {
+            if (scoreBoard[SidsteRunde, forrigeKast] == MaxPoints)
+            {
+                sumAfRunde[SidsteRunde] += MaxPoints;
+            }
+        }
+
+        if (scoreBoard[SidsteRunde, kast] == MaxPoints && kast != FørsteKast && kast != AndetKast)
+        {
+            if (scoreBoard[SidsteRunde, forrigeKast] == MaxPoints && scoreBoard[SidsteRunde, førForrigeKast] == MaxPoints)
+            {
+                sumAfRunde[SidsteRunde] += MaxPoints;
+            }
+        }
+
+        if (scoreBoard[SidsteRunde, FørsteKast] == MaxPoints && scoreBoard[forrigeRunde, FørsteKast] == MaxPoints && kast == FørsteKast)
+        {
+            sumAfRunde[forrigeRunde] += MaxPoints;
+        }
+
+        if (scoreBoard[SidsteRunde, FørsteKast] == MaxPoints && scoreBoard[forrigeRunde, FørsteKast] == MaxPoints && scoreBoard[førForrigeRunde, FørsteKast] == MaxPoints && kast == FørsteKast)
+        {
+            sumAfRunde[førForrigeRunde] += MaxPoints;
+        }
+
+        if (scoreBoard[SidsteRunde, FørsteKast] == MaxPoints && scoreBoard[SidsteRunde, AndetKast] == MaxPoints && scoreBoard[forrigeRunde, FørsteKast] == MaxPoints && kast == AndetKast)
+        {
+            sumAfRunde[forrigeRunde] += MaxPoints;
+        }
     }
 }

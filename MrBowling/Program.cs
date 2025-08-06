@@ -1,71 +1,67 @@
-﻿using System;
-using MrBowling;
+﻿using MrBowling;
 
 Console.WriteLine("Velkommen til Bowling!");
 Console.WriteLine("Indtast spillernavn:");
 var input = Console.ReadLine();
 
-int[,] scoreBoard =
-    { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
+var scoreBoard = new[,] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
 
-string[,] scoreBoardString =
-{
+var scoreBoardString = new[,] {
     { "0", "0", "" }, { "0", "0", "" }, { "0", "0", "" }, { "0", "0", "" }, { "0", "0", "" }, { "0", "0", "" }, { "0", "0", "" },
     { "0", "0", "" }, { "0", "0", "" }, { "0", "0", "0" }
 };
 int[] sumAfRunde =
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const int sidsteRunde = 9;
+const int førsteKast = 0;
+const int andetKast = 1;
+const int tredjeKast = 2;
+const int maxPointe = 10;
 
-for (int i = 0; i < 10; i++)
+for (var runde = 0; runde < 10; runde++)
 {
-    var bowling = new Bowling();
-
-    for (int j = 0; j < 3; j++)
+    for (var kast = førsteKast; kast < 3; kast++)
     {
-        if (j == 2 && i != 9 || j == 1 && scoreBoard[i, j - 1] == 10 && i != 9 )
+        var forrigeKast = kast - 1;
+        
+        if (kast == tredjeKast && runde != sidsteRunde || kast == andetKast && scoreBoard[runde, forrigeKast] == maxPointe && runde != sidsteRunde)
         {
+            //This exists to skip every third execution
         }
-        else if (scoreBoardString[9, 0] != "X" || scoreBoardString[9, 1] != "/")
+        else if (scoreBoardString[sidsteRunde, førsteKast] != "X" || scoreBoardString[sidsteRunde, andetKast] != "/")
         {
             Console.WriteLine(input + "´s tur til at kaste");
-            var inputKast = Int32.Parse(Console.ReadLine());
-            Console.WriteLine(input + " har scoret " + inputKast + " i kast nr " + (j + 1));
+            var inputKast = int.Parse(Console.ReadLine() ?? string.Empty);
+            Console.WriteLine($"{input} har scoret {inputKast} i kast nr {kast + 1}");
 
-            scoreBoard[i, j] = inputKast;
+            scoreBoard[runde, kast] = inputKast;
 
-            if (i != sidsteRunde)
+            if (runde != sidsteRunde)
             {
-                bowling.UdregningAfStrike(scoreBoard, i, j, sumAfRunde);
+                Bowling.UdregningAfStrike(scoreBoard, runde, kast, sumAfRunde);
             }
             else
             {
-                bowling.UdregningAfSidsteRundeStrike(scoreBoard, j, sumAfRunde);
-                bowling.UdregningAfSidsteRundeSpare(scoreBoard, j, sumAfRunde);
+                Bowling.UdregningAfSidsteRundeStrike(scoreBoard, kast, sumAfRunde);
+                Bowling.UdregningAfSidsteRundeSpare(scoreBoard, kast, sumAfRunde);
             }
         }
     }
 
-
-    if (i != sidsteRunde)
+    if (runde != sidsteRunde)
     {
-        bowling.UdregningAfKast(scoreBoard, sumAfRunde, i);
-        bowling.UdregningAfSpare(scoreBoard, sumAfRunde, i);
-    }
-    else if (scoreBoard[sidsteRunde, 0] + scoreBoard[sidsteRunde, 1] == 10)
-    {
-        
+        Bowling.UdregningAfKast(scoreBoard, sumAfRunde, runde);
+        Bowling.UdregningAfSpare(scoreBoard, sumAfRunde, runde);
     }
 
-    if (i == sidsteRunde /*&& scoreBoard[sidsteRunde, 0] == 10 || scoreBoard[sidsteRunde, 1] == 10 || scoreBoard[sidsteRunde, 2] == 10*/)
+    if (runde == sidsteRunde)
     {
-        bowling.UdregningAfSidsteRundeKast(scoreBoard, sumAfRunde);
+        Bowling.UdregningAfSidsteRundeKast(scoreBoard, sumAfRunde);
     }
-    
 
     var showScoreBoard = new ShowScoreBoard();
 
-    Console.WriteLine(showScoreBoard.PrintScoreBoard(scoreBoard, scoreBoardString, i));
-    Console.WriteLine(showScoreBoard.PrintSumAfRunder(sumAfRunde));
+    Console.WriteLine(ShowScoreBoard.PrintScoreBoard(scoreBoard, scoreBoardString, runde));
+    Console.WriteLine(ShowScoreBoard.PrintSumAfRunder(sumAfRunde));
 }
