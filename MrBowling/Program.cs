@@ -42,6 +42,7 @@ for (int i = 0; i < 10; i++)
             else
             {
                 bowling.UdregningAfSidsteRundeStrike(scoreBoard, j, sumAfRunde);
+                bowling.UdregningAfSidsteRundeSpare(scoreBoard, j, sumAfRunde);
             }
         }
     }
@@ -57,10 +58,9 @@ for (int i = 0; i < 10; i++)
         
     }
 
-    if (i == sidsteRunde && scoreBoard[sidsteRunde, 0] == 10 || scoreBoard[sidsteRunde, 1] == 10 || scoreBoard[sidsteRunde, 2] == 10)
+    if (i == sidsteRunde /*&& scoreBoard[sidsteRunde, 0] == 10 || scoreBoard[sidsteRunde, 1] == 10 || scoreBoard[sidsteRunde, 2] == 10*/)
     {
         bowling.UdregningAfSidsteRundeKast(scoreBoard, sumAfRunde);
-                //bowling.UdregningAfSidsteRundeSpare(scoreBoard, sumAfRunde);
     }
     
 

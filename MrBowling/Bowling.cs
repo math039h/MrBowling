@@ -11,7 +11,7 @@ public class Bowling
         }
     }
 
-    public void UdregningAfSpare(int[,] scoreBoard, int[] sum, int runde)
+    public void UdregningAfSpare(int[,] scoreBoard, int[] sumAfRunde, int runde)
     {
         var førsteRunde = 0;
         var andenRunde = 1;
@@ -25,7 +25,8 @@ public class Bowling
             scoreBoard[runde - forrigeRunde, førsteKast] + scoreBoard[runde - forrigeRunde, andetKast] == sparePointe &&
             scoreBoard[runde - forrigeRunde, førsteKast] != strikePointe)
         {
-            sum[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
+            sumAfRunde[runde - forrigeRunde] += scoreBoard[runde, førsteKast];
+            sumAfRunde[runde] += scoreBoard[runde, førsteKast];
         }
     }
 
@@ -70,8 +71,17 @@ public class Bowling
         sumAfRunde[9] += sumAfRunde[9 - 1];
     }
 
-    public void UdregningAfSidsteRundeSpare(int[,] scoreBoard, int[] sumAfRunde)
+    public void UdregningAfSidsteRundeSpare(int[,] scoreBoard, int kast, int[] sumAfRunde)
     {
+        if (scoreBoard[9, 0] + scoreBoard[9, 1] == 10 && scoreBoard[9, 1] != 10 && kast == 2) 
+        {
+            sumAfRunde[9] += scoreBoard[9, 2];
+        }
+
+        if (scoreBoard[8, 0] + scoreBoard[8, 1] == 10 && kast == 0)
+        {
+            sumAfRunde[8] += scoreBoard[9, 0];
+        }
     }
 
     public void UdregningAfSidsteRundeStrike(int[,] scoreBoard, int kast, int[] sumAfRunde)
@@ -80,7 +90,7 @@ public class Bowling
         {
             if (scoreBoard[9, kast - 1] == 10)
             {
-              sumAfRunde[9] += 10;
+                sumAfRunde[9] += 10;
             }
         }
 
@@ -88,8 +98,25 @@ public class Bowling
         {
             if (scoreBoard[9, kast - 1] == 10 && scoreBoard[9, kast - 2] == 10)
             {
-               sumAfRunde[9] += 10; 
+                sumAfRunde[9] += 10;
             }
         }
+
+        if (scoreBoard[9, 0] == 10 && scoreBoard[8, 0] == 10 && kast == 0)
+        {
+            sumAfRunde[8] += 10;
+        }
+
+        if (scoreBoard[9, 0] == 10 && scoreBoard[8, 0] == 10 && scoreBoard[7, 0] == 10 && kast == 0)
+        {
+            sumAfRunde[7] += 10;
+            //sumAfRunde[8] += 10;
+        }
+
+        if (scoreBoard[9, 0] == 10 && scoreBoard[9, 1] == 10 && scoreBoard[8, 0] == 10 && kast == 1)
+        {
+            sumAfRunde[8] += 10;
+        }
+        
     }
 }

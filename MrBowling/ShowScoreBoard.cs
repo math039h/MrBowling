@@ -16,7 +16,7 @@ public class ShowScoreBoard
             {
                 scoreBoardString[runde, førsteKast] = "X";
             }
-            else if (scoreBoard[runde, førsteKast] + scoreBoard[runde, andetKast] == strikePoint)
+            else if (scoreBoard[runde, førsteKast] + scoreBoard[runde, andetKast] == strikePoint )
             {
                 scoreBoardString[runde, andetKast] = "/";
                 scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
@@ -47,10 +47,12 @@ public class ShowScoreBoard
             {
                 scoreBoardString[sidsteRunde, tredjeKast] = "X";
             }
-
-            // scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
-            // scoreBoardString[runde, andetKast] = scoreBoard[runde, andetKast].ToString();
-            // scoreBoardString[runde, tredjeKast] = scoreBoard[runde, tredjeKast].ToString();
+            
+            if (scoreBoard[runde, førsteKast] + scoreBoard[runde, andetKast] == strikePoint )
+            {
+                scoreBoardString[runde, andetKast] = "/";
+                scoreBoardString[runde, førsteKast] = scoreBoard[runde, førsteKast].ToString();
+            }
         }
 
         return
